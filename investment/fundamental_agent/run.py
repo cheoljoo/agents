@@ -6,14 +6,15 @@ def get_fundamental_signal(ticker, df_krx):
     """Simple valuation analysis for a ticker."""
     ticker_str = str(ticker).zfill(6)
     stock_rows = df_krx[df_krx['Code'] == ticker_str]
-    if stock_rows.empty: return "Data Missing"
+    if stock_rows.empty:
+        return "Data Missing"
     
     stock = stock_rows.iloc[0]
     # PER, PBR 등이 수치인지 확인 후 처리 (결측치 처리)
     try:
         per = float(stock.get('PER', 0))
         pbr = float(stock.get('PBR', 0))
-    except:
+    except (ValueError, TypeError):
         return "Invalid Data"
     
     # KOSPI 상위 종목의 경우 더 유연한 기준 적용

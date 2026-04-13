@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2026-04-13",
+    "start": "10:00",
+    "end": "10:15",
+    "duration": "15m",
+    "tool": "gemini-cli",
+    "session_id": "current",
+    "tasks": [
+      {
+        "title": "Gemini CLI 기술 인식 오류 해결",
+        "detail": ".agent -> .agents 이름 변경 및 SKILL.md name 필드 추가",
+        "start": "10:00",
+        "end": "10:10",
+        "duration": "10m"
+      },
+      {
+        "title": "작업 로그 체계 구축",
+        "detail": "README.md 업데이트 및 worklog 관련 파일 생성",
+        "start": "10:10",
+        "end": "10:15",
+        "duration": "5m"
+      }
+    ],
+    "project": "agents"
+  }
+]

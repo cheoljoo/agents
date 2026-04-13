@@ -1,5 +1,4 @@
 import subprocess
-import os
 
 def run_agent(script_path):
     print(f"\n>> Executing Investment Agent: {script_path}")

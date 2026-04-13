@@ -1,6 +1,5 @@
 import subprocess
 import os
-import sys
 
 class KOSPI50Manager:
     def __init__(self):

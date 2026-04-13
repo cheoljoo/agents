@@ -12,3 +12,8 @@ dependencies = [
     "requests>=2.33.1",
     "setuptools>=82.0.1",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.10",
+]

@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import FinanceDataReader as fdr
 from datetime import datetime, timedelta
 

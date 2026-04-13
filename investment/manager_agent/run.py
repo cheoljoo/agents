@@ -4,18 +4,27 @@ import pandas as pd
 def synthesize_recommendation(quant, fundamental, news):
     """Simple decision logic for final recommendation."""
     score = 0
-    if quant == "Bullish": score += 1
-    elif quant == "Bearish": score -= 1
+    if quant == "Bullish":
+        score += 1
+    elif quant == "Bearish":
+        score -= 1
     
-    if fundamental == "Undervalued": score += 1
-    elif fundamental == "Overvalued": score -= 1
+    if fundamental == "Undervalued":
+        score += 1
+    elif fundamental == "Overvalued":
+        score -= 1
     
-    if news == "Positive": score += 1
+    if news == "Positive":
+        score += 1
     
-    if score >= 2: return "Strong Buy"
-    elif score == 1: return "Buy"
-    elif score == 0: return "Hold"
-    else: return "Sell"
+    if score >= 2:
+        return "Strong Buy"
+    elif score == 1:
+        return "Buy"
+    elif score == 0:
+        return "Hold"
+    else:
+        return "Sell"
 
 def main():
     quant_path = "data/investment/quant_signals.csv"

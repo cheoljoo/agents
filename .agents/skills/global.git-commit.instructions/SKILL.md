@@ -1,0 +1,1 @@
+../../../.github/instructions/global.git-commit.instructions.md

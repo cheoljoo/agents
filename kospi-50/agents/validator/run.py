@@ -39,7 +39,7 @@ def validate_data():
         else:
             f.write("\n".join(report))
     
-    print(f"Validation complete. Report saved to data/validation_report.txt")
+    print("Validation complete. Report saved to data/validation_report.txt")
 
 if __name__ == "__main__":
     validate_data()

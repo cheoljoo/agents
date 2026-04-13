@@ -1,7 +1,5 @@
 import os
-import pandas as pd
 import FinanceDataReader as fdr
-from datetime import datetime
 
 def get_kospi50_tickers():
     df_krx = fdr.StockListing('KOSPI')
@@ -15,7 +13,7 @@ def main():
     # KOSPI 상위 종목의 전체 리스트와 지표를 한 번에 가져옵니다.
     df_krx = fdr.StockListing('KOSPI')
     
-    print(f"Collecting KOSPI Top 50 fundamental data using FDR...")
+    print("Collecting KOSPI Top 50 fundamental data using FDR...")
     for ticker in tickers[:10]: # 프로토타입: 상위 10개만
         print(f"Processing fundamental for: {ticker}...")
         # 해당 종목의 한 줄 데이터를 추출

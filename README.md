@@ -75,4 +75,22 @@ uv run investment/main.py
 
 - **LangGraph**: 복잡한 상태 관리와 순환형(Cyclic) 에이전트 워크플로우 구축에 최적화되어 있습니다.
 - **CrewAI**: 역할 기반(Role-based) 에이전트들이 협업하여 목표를 달성하는 구조를 쉽게 만들 수 있습니다.
-- **AutoGPT / BabyAGI**: 목표를 주면 스스로 할 일을 찾아 수행하는 자율형 에이전트 구현에 적합합니다.
+---
+
+## 🤖 Gemini CLI Skills & Project Management
+
+이 프로젝트는 Gemini CLI의 **커스텀 기술(Skills)**을 활용하여 작업 로그 관리 및 개발 표준을 자동화합니다.
+
+### 🛠 구성된 기술
+1. **git-commit**: Git 커밋 메시지 작성 규칙을 준수하도록 가이드합니다.
+2. **worklog-manager**: "일을 정리 해주세요" 명령으로 `README.md`, `report.md`, `worklog.md`, `lessons.md`, `data/worklog.json`을 자동 업데이트합니다.
+
+### 📂 기술 저장 위치
+- `.agents/skills/`: 프로젝트 전용 기술(Skills)이 저장되는 디렉토리입니다. `SKILL.md` 파일을 통해 정의됩니다.
+
+### 📝 작업 관리 파일
+- `worklog.md`: 월별/일별 상세 작업 내역 (인간 가독용)
+- `data/worklog.json`: 분석용 구조화 데이터
+- `report.md`: 주요 분석 결과 및 기술적 의사결정 기록
+- `lessons.md`: 개발 과정에서 얻은 주요 교훈 및 해결책
+- `mm.md`: 커밋 메시지 및 작업 요약 초안
