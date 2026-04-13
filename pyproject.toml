@@ -1,0 +1,14 @@
+[project]
+name = "kospi50-agents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "finance-datareader>=0.9.110",
+    "pandas>=3.0.2",
+    "pykrx>=1.0.51",
+    "requests>=2.33.1",
+    "setuptools>=82.0.1",
+]
