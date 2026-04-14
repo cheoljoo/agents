@@ -1,1 +1,0 @@
-../../../.github/instructions/global.worklog.instructions.md

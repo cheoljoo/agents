@@ -86,7 +86,8 @@ uv run investment/main.py
 2. **worklog-manager**: "일을 정리 해주세요" 명령으로 `README.md`, `report.md`, `worklog.md`, `lessons.md`, `data/worklog.json`을 자동 업데이트합니다.
 
 ### 📂 기술 저장 위치
-- `.agents/skills/`: 프로젝트 전용 기술(Skills)이 저장되는 디렉토리입니다. `SKILL.md` 파일을 통해 정의됩니다.
+- `.github/skills/`: 기술(Skills)의 원본 저장소입니다. 각 기술은 하위 폴더 내 `SKILL.md`를 통해 정의됩니다.
+- `.gemini/` 및 `.claude/`: `make skills-sync` 실행 시 `.github`의 내용이 심볼릭 링크로 동기화되는 대상 폴더들입니다.
 
 ### 📝 작업 관리 파일
 - `worklog.md`: 월별/일별 상세 작업 내역 (인간 가독용)

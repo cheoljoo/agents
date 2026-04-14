@@ -1,6 +1,6 @@
 ---
 name: worklog-manager
-description: "일을 정리 해주세요" 트리거 — README, report, worklog, lessons 자동 정리
+description: "일을 정리 해주세요" 
 ---
 
 # 스킬: 작업 정리
