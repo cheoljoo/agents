@@ -63,7 +63,7 @@ for skill_path in "$SRC_SKILLS_DIR"/*/; do
 done
 
 # ---------- 4. .vscode/settings.json (merge) ----------
-python3 scripts/update_vscode_settings.py \
+uv run python scripts/update_vscode_settings.py \
     --settings ".vscode/settings.json" \
     --vscode-skills-dir "$VSCODE_SKILLS_DIR"
 

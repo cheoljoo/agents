@@ -26,7 +26,9 @@ def load_settings(path: str) -> dict:
     return {}
 
 
-def collect_skill_entries(vscode_skills_dir: str) -> list[dict]:
+from typing import List, Dict
+
+def collect_skill_entries(vscode_skills_dir: str) -> List[Dict]:
     """Return sorted list of {file: ...} entries for all *.md in vscode-skills/."""
     if not os.path.isdir(vscode_skills_dir):
         print(f"Warning: {vscode_skills_dir} not found.", file=sys.stderr)
