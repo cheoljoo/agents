@@ -32,7 +32,11 @@ description: "일을 정리 해주세요"
    - **세션 시작 시간**: 대화에서 가장 첫 번째 `<current_datetime>` 값 (UTC→KST +9h 변환)
    - **세션 종료 시간**: "일을 정리 해주세요" 메시지의 `<current_datetime>` 값 (UTC→KST +9h 변환)
    - **개별 작업 시간**: 각 작업(task)이 시작/완료된 시점의 `<current_datetime>` 값으로 산출
-   - `<current_datetime>` 이 없거나 알 수 없으면 `"HH:MM"` 대신 `"unknown"` 으로 기록
+  - `<current_datetime>` 이 없거나 알 수 없으면 아래 fallback 순서 적용:
+    1) 이번 세션에서 수정된 파일들의 mtime(로컬시간) 최소/최대를 사용해 `start/end` 근사값 생성
+    2) task 시간은 전체 구간을 작업 수로 균등 분할해 `start/end/duration` 배분
+    3) mtime도 확보 불가한 경우에만 `"HH:MM"` 대신 `"unknown"` 으로 기록
+  - mtime fallback으로 생성한 시간은 `detail`에 `approx by mtime` 문구를 1회 포함해 근사치임을 명시
    - duration 계산: 종료 - 시작 (분 단위 계산 후 `Xh Ym` 형식)
 
 2. **툴 및 세션 ID** 자동 감지:
@@ -43,9 +47,34 @@ description: "일을 정리 해주세요"
 
 ---
 
+## 사전 단계 C — Chat 근거 기반 복구(터미널 로그가 약할 때)
+
+> 터미널 실행 이력이 적고 Chat 창 논의가 핵심인 세션은, Chat 내용을 증거로 worklog를 복구한다.
+
+1. **근거 우선순위**:
+  - (1) 이번 대화의 요청/응답 요약(가능하면 conversation summary 포함)
+  - (2) 에이전트가 실제 실행한 도구 결과(파일 수정/컴파일/테스트)
+  - (3) 파일 mtime 및 산출물 timestamp
+
+2. **기록 원칙(확정/추정 분리)**:
+  - Chat/도구 결과로 명확히 확인된 내용은 일반 task로 기록
+  - 추정으로 복구한 내용은 `detail`에 `approx (from chat)` 문구를 1회 포함
+  - 시간은 `<current_datetime>`가 없으면 mtime/대화 순서로 근사하되, 불확실하면 `unknown` 허용
+
+3. **반영 파일**:
+  - `worklog.md` (맨 위 prepend)
+  - `data/worklog.json` (append)
+  - 필요 시 `lessons.md`에 "복구 시점에서의 교훈" 추가
+
+4. **최종 보고 형식**:
+  - "확정 작업 N건 / 추정 작업 M건"으로 구분
+  - 추정 항목에는 신뢰도(`높음/중간/낮음`)를 detail에 표기
+
+---
+
 ## 작업 1 — README.md 업데이트
-- 프로젝트의 중요한 기능 추가와 같은 내용에 대해서 `README.md`를 업데이트한다.
-- 단순 시간단위의 변화에 대해서는 worklog.md와 data/worklog.json에만 업데이트한다.
+- 해당 일이 전체 구조와 연관된 경우 프로젝트의 현재 상태를 반영하여 `README.md`를 업데이트한다.
+- 시간이나 commit 단위의 내용은 `worklog.md`에 업데이트한다.
 
 ## 작업 2 — report.md 업데이트
 - 세션에서 나온 **핵심 결과, 수치, 분석 과정, 재현 방법**을 `report.md` 에 정리한다.
@@ -93,6 +122,24 @@ description: "일을 정리 해주세요"
 
   상세한 내용
   ```
+
+---
+
+## Chat 기반 정리용 추천 프롬프트 (복붙용)
+
+```text
+아래 chat 기록(요약/원문)을 근거로 worklog를 만들어줘.
+
+규칙:
+1) 확정 사실과 추정 내용을 분리
+2) 추정은 detail에 `approx (from chat)` 표기
+3) `worklog.md`와 `data/worklog.json` 둘 다 업데이트
+4) tasks는 3~6개로 구조화
+5) 결과 보고 시 확정 N건/추정 M건과 신뢰도(높음/중간/낮음) 표시
+
+입력:
+- [여기에 chat 내용 붙여넣기]
+```
 
 ---
 
