@@ -26,17 +26,29 @@ description: "일을 정리 해주세요"
 
 ## 사전 단계 B — 작업 시간 및 툴 정보 자동 감지
 
-> **시간은 수동 입력 없이 `<current_datetime>` 태그에서 자동 추출한다.**
+> **시간은 아래 우선순위로 자동 산출한다. `unknown` 기록은 최후 수단이다.**
 
-1. **작업 시간 자동 산출**:
+1. **작업 시간 자동 산출 (우선순위 순)**:
+
+   **[우선순위 1] 사용자가 직접 시각을 언급한 경우**
+   - "09:30부터 11:00까지 작업했어" 같이 대화에 시각이 명시되면 해당 값을 사용한다.
+
+   **[우선순위 2] `<current_datetime>` 태그가 메시지에 포함된 경우** (Claude Code, Gemini CLI 등)
    - **세션 시작 시간**: 대화에서 가장 첫 번째 `<current_datetime>` 값 (UTC→KST +9h 변환)
    - **세션 종료 시간**: "일을 정리 해주세요" 메시지의 `<current_datetime>` 값 (UTC→KST +9h 변환)
    - **개별 작업 시간**: 각 작업(task)이 시작/완료된 시점의 `<current_datetime>` 값으로 산출
-  - `<current_datetime>` 이 없거나 알 수 없으면 아래 fallback 순서 적용:
-    1) 이번 세션에서 수정된 파일들의 mtime(로컬시간) 최소/최대를 사용해 `start/end` 근사값 생성
-    2) task 시간은 전체 구간을 작업 수로 균등 분할해 `start/end/duration` 배분
-    3) mtime도 확보 불가한 경우에만 `"HH:MM"` 대신 `"unknown"` 으로 기록
-  - mtime fallback으로 생성한 시간은 `detail`에 `approx by mtime` 문구를 1회 포함해 근사치임을 명시
+   - ※ VS Code Copilot Chat은 이 태그를 자동 삽입하지 않으므로 이 우선순위는 해당 없음
+
+   **[우선순위 3 — 기본 동작] mtime 기반 자동 근사** (VS Code Copilot Chat 등)
+   - 이번 세션에서 수정된 파일들의 mtime(로컬시간)을 `stat` 명령으로 확인한다.
+   - 가장 이른 mtime → `start`, 가장 늦은 mtime → `end` 로 사용한다.
+   - task 시간은 전체 구간을 작업 수로 균등 분할해 `start/end/duration` 배분한다.
+   - mtime으로 산출한 시간은 `detail`에 `approx by mtime` 문구를 1회 포함해 근사치임을 명시한다.
+   - **이 단계는 `<current_datetime>`가 없을 때 자동으로 실행하며, 별도 지시 없이도 수행한다.**
+
+   **[최후 수단] `unknown` 기록**
+   - 위 3가지 방법 모두 시각을 확보할 수 없을 때만 `"unknown"` 으로 기록한다.
+
    - duration 계산: 종료 - 시작 (분 단위 계산 후 `Xh Ym` 형식)
 
 2. **툴 및 세션 ID** 자동 감지:
@@ -59,7 +71,8 @@ description: "일을 정리 해주세요"
 2. **기록 원칙(확정/추정 분리)**:
   - Chat/도구 결과로 명확히 확인된 내용은 일반 task로 기록
   - 추정으로 복구한 내용은 `detail`에 `approx (from chat)` 문구를 1회 포함
-  - 시간은 `<current_datetime>`가 없으면 mtime/대화 순서로 근사하되, 불확실하면 `unknown` 허용
+  - 시간은 `<current_datetime>`가 없으면 **반드시 mtime으로 자동 근사**하며, mtime도 확보 불가한 경우에만 `unknown` 허용
+  - **worklog.md, data/worklog.json, report.md, lessons.md, mm.md 자체의 업데이트/생성은 task 항목에 포함하지 않는다.** 이는 정리 작업의 부산물이지 실제 작업 내용이 아니다.
 
 3. **반영 파일**:
   - `worklog.md` (맨 위 prepend)
@@ -82,6 +95,7 @@ description: "일을 정리 해주세요"
 
 ## 작업 3 — worklog.md에 작업 내역 추가 (이번 달 파일)
 - `worklog.md` 파일 **맨 위에** 추가한다.
+- **`worklog.md`, `data/worklog.json`, `report.md`, `lessons.md`, `mm.md` 자체의 업데이트/생성은 작업 내용에 포함하지 않는다.**
 - 형식:
   ```
   ## YYYY-MM-DD HH:MM ~ HH:MM (Xh Ym) [tool: copilot-cli / session: xxxx-xxxx]
@@ -91,6 +105,7 @@ description: "일을 정리 해주세요"
 
 ## 작업 4 — data/worklog.json에 구조화 데이터 추가 (이번 달 파일)
 - `data/worklog.json` 배열에 항목을 **append** 한다.
+- **`worklog.md`, `data/worklog.json`, `report.md`, `lessons.md`, `mm.md` 자체의 업데이트/생성은 tasks 항목에 포함하지 않는다.**
 - 형식:
   ```json
   {

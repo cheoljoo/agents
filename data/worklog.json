@@ -8,22 +8,29 @@
     "session_id": "current",
     "tasks": [
       {
-        "title": "instructions.md 리뷰",
-        "detail": "AI 코딩 툴 Instruction 체계 완전 정리 문서 전체 내용 파악 — 툴별 파일 위치, Skills/Instructions 체계, AGENT.md vs AGENTS.md, 중복 제거 전략 등",
+        "title": "Claude/Gemini instruction 파일 생성",
+        "detail": ".claude/CLAUDE.md 및 .gemini/GEMINI.md 신규 생성 — 각 툴별 프로젝트 instruction 추가 (approx from chat)",
         "start": "unknown",
         "end": "unknown",
         "duration": "unknown"
       },
       {
-        "title": "skills_and_instruct_ions.md 리뷰",
-        "detail": "Single Source of Truth 설계 원칙, make skills-sync 동작 흐름, 도구별 읽기 경로(Copilot CLI/VSCode/Gemini/Claude) 파악",
+        "title": "VS Code settings.json 생성",
+        "detail": ".vscode/settings.json 신규 생성 — coding-style-check, git-commit, skill-sync-manager, worklog-manager 스킬을 VS Code Copilot instructions로 등록 (approx from chat)",
         "start": "unknown",
         "end": "unknown",
         "duration": "unknown"
       },
       {
-        "title": "작업 로그 정리",
-        "detail": "worklog.md, data/worklog.json, report.md, lessons.md, mm.md 업데이트",
+        "title": "skills/instructions 체계 정비 및 커밋",
+        "detail": "update: skills and instructions.md, vscode 전용 workload skill, update worklog skill 등 여러 커밋 수행 (approx from chat, 신뢰도: 높음)",
+        "start": "unknown",
+        "end": "unknown",
+        "duration": "unknown"
+      },
+      {
+        "title": "mm.md 작성 및 작업 로그 정리",
+        "detail": "mm.md 신규 생성(git commit 메시지 초안), worklog.md/data/worklog.json/report.md/lessons.md 업데이트",
         "start": "unknown",
         "end": "unknown",
         "duration": "unknown"
