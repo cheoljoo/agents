@@ -177,9 +177,9 @@ description: "트리거 문구 — 스킬 설명"
 
 ---
 
-## 비교: 단일 파일 vs Skills 방식
+## 비교: 단일 파일 or instructions vs Skills 방식
 
-| 항목 | 단일 파일 (GEMINI.md / CLAUDE.md) | Skills (`SKILL.md`) |
+| 항목 | 단일 파일 (GEMINI.md / CLAUDE.md) or instructions | Skills (`SKILL.md`) |
 |------|------|------|
 | 설정 간단 | ✅ | ❌ sync 스크립트 필요 |
 | 트리거 기반 실행 | ❌ 항상 전체 로드 | ✅ 호출 시만 로드 |

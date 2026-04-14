@@ -1,5 +1,37 @@
 [
   {
+    "date": "2026-04-14",
+    "start": "unknown",
+    "end": "unknown",
+    "duration": "unknown",
+    "tool": "vscode-copilot",
+    "session_id": "current",
+    "tasks": [
+      {
+        "title": "instructions.md 리뷰",
+        "detail": "AI 코딩 툴 Instruction 체계 완전 정리 문서 전체 내용 파악 — 툴별 파일 위치, Skills/Instructions 체계, AGENT.md vs AGENTS.md, 중복 제거 전략 등",
+        "start": "unknown",
+        "end": "unknown",
+        "duration": "unknown"
+      },
+      {
+        "title": "skills_and_instruct_ions.md 리뷰",
+        "detail": "Single Source of Truth 설계 원칙, make skills-sync 동작 흐름, 도구별 읽기 경로(Copilot CLI/VSCode/Gemini/Claude) 파악",
+        "start": "unknown",
+        "end": "unknown",
+        "duration": "unknown"
+      },
+      {
+        "title": "작업 로그 정리",
+        "detail": "worklog.md, data/worklog.json, report.md, lessons.md, mm.md 업데이트",
+        "start": "unknown",
+        "end": "unknown",
+        "duration": "unknown"
+      }
+    ],
+    "project": "agents"
+  },
+  {
     "date": "2026-04-13",
     "start": "10:00",
     "end": "10:15",
