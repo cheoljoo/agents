@@ -187,3 +187,9 @@ description: "트리거 문구 — 스킬 설명"
 | 여러 도구 호환 | ✅ 도구별 파일만 작성 | ✅ sync로 자동 배포 |
 | 유지보수 | ❌ 파일 비대화 | ✅ 스킬별 독립 파일 |
 | 파일 범위 지정 | ❌ | ✅ (applyTo glob 지원) |
+
+
+# appendix.
+## vscode 만 사용하는 경우 간단하게 workload skill(instruction) 을 사용하는 방법
+- skill은 제공하지 않고 , *-instructions.md 를 만들면 모두 instruction으로 처리한다.
+- .github/skills/worklog-manager/SKILL.md를 사용하고자 하면 , 파일을 .github/worklog-manager-instructions.md 로 copy해주면 instruction으로 동작하여,   '일 정리해줘' 하고 명령을 내리면 명령 set을 수행해줍니다. 
