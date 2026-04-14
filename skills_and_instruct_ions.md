@@ -1,6 +1,31 @@
-# Skills & Instructions 통합 가이드
+목차
+- [1. Skills \& Instructions 통합 가이드](#1-skills--instructions-통합-가이드)
+  - [1.1. 배경 / 문제 정의](#11-배경--문제-정의)
+  - [1.2. 설계 원칙](#12-설계-원칙)
+  - [1.3. 디렉토리 구조](#13-디렉토리-구조)
+  - [1.4. 각 도구별 읽기 경로](#14-각-도구별-읽기-경로)
+    - [1.4.1. Copilot CLI](#141-copilot-cli)
+    - [1.4.2. VS Code Copilot](#142-vs-code-copilot)
+    - [1.4.3. Gemini CLI](#143-gemini-cli)
+    - [1.4.4. Claude Code](#144-claude-code)
+  - [1.5. skill-sync 동작 (`make skills-sync`)](#15-skill-sync-동작-make-skills-sync)
+    - [1.5.1. 실행 방법](#151-실행-방법)
+    - [1.5.2. `scripts/sync_skills.sh` 처리 흐름](#152-scriptssync_skillssh-처리-흐름)
+    - [1.5.3. `scripts/update_vscode_settings.py` merge 규칙](#153-scriptsupdate_vscode_settingspy-merge-규칙)
+    - [1.5.4. 새 스킬 추가 시 절차](#154-새-스킬-추가-시-절차)
+  - [1.6. SKILL.md 파일 형식](#16-skillmd-파일-형식)
+  - [1.7. 파일별 편집 가능 여부](#17-파일별-편집-가능-여부)
+  - [1.8. 비교: 단일 파일 or instructions vs Skills 방식](#18-비교-단일-파일-or-instructions-vs-skills-방식)
+- [2. appendix.](#2-appendix)
+  - [2.1. vscode 만 사용하는 경우 간단하게 workload skill(instruction) 을 사용하는 방법](#21-vscode-만-사용하는-경우-간단하게-workload-skillinstruction-을-사용하는-방법)
 
-## 배경 / 문제 정의
+
+
+--------
+
+# 1. Skills & Instructions 통합 가이드
+
+## 1.1. 배경 / 문제 정의
 
 AI 도구마다 커스텀 규칙을 주입하는 메커니즘이 다르다.
 
@@ -17,7 +42,7 @@ AI 도구마다 커스텀 규칙을 주입하는 메커니즘이 다르다.
 
 ---
 
-## 설계 원칙
+## 1.2. 설계 원칙
 
 1. **Single Source of Truth**: 모든 스킬 정의는 `.github/skills/<name>/SKILL.md` 에만 작성한다.
 2. **전역 지침도 단일 소스**: `.github/copilot-instructions.md` 하나를 각 도구별 경로로 symlink한다.
@@ -27,7 +52,7 @@ AI 도구마다 커스텀 규칙을 주입하는 메커니즘이 다르다.
 
 ---
 
-## 디렉토리 구조
+## 1.3. 디렉토리 구조
 
 ```
 프로젝트 루트/
@@ -71,29 +96,29 @@ AI 도구마다 커스텀 규칙을 주입하는 메커니즘이 다르다.
 
 ---
 
-## 각 도구별 읽기 경로
+## 1.4. 각 도구별 읽기 경로
 
-### Copilot CLI
+### 1.4.1. Copilot CLI
 ```
 .github/copilot-instructions.md       ← 항상 로드되는 전역 지침
 .github/skills/<name>/SKILL.md        ← Skills (트리거 기반, 필요 시만 로드)
 ```
 > `.github/vscode-skills/`는 `*.instructions.md` 패턴이 아니므로 자동 무시
 
-### VS Code Copilot
+### 1.4.2. VS Code Copilot
 ```
 .github/copilot-instructions.md       ← 항상 로드
 .github/vscode-skills/<name>.md       ← settings.json에 지정 → Instructions로 인식
 ```
 > `.github/skills/`는 VS Code가 직접 읽지 않음 (Skills 미지원)
 
-### Gemini CLI
+### 1.4.3. Gemini CLI
 ```
 .gemini/GEMINI.md   → ../.github/copilot-instructions.md   ← 전역 지침
 .gemini/skills/     → ../.github/skills/                   ← 스킬 목록
 ```
 
-### Claude Code
+### 1.4.4. Claude Code
 ```
 .claude/CLAUDE.md   → ../.github/copilot-instructions.md   ← 전역 지침
 .claude/skills/     → ../.github/skills/                   ← 스킬 목록
@@ -101,14 +126,14 @@ AI 도구마다 커스텀 규칙을 주입하는 메커니즘이 다르다.
 
 ---
 
-## skill-sync 동작 (`make skills-sync`)
+## 1.5. skill-sync 동작 (`make skills-sync`)
 
-### 실행 방법
+### 1.5.1. 실행 방법
 ```bash
 make skills-sync
 ```
 
-### `scripts/sync_skills.sh` 처리 흐름
+### 1.5.2. `scripts/sync_skills.sh` 처리 흐름
 
 ```
 .github/copilot-instructions.md
@@ -126,12 +151,12 @@ make skills-sync
                                    (update_vscode_settings.py)
 ```
 
-### `scripts/update_vscode_settings.py` merge 규칙
+### 1.5.3. `scripts/update_vscode_settings.py` merge 규칙
 - 기존 settings.json 읽기 → `.github/vscode-skills/` 접두사 항목만 제거 → 새 목록 추가
 - **다른 설정 키(`editor.tabSize` 등)는 절대 건드리지 않음**
 - 스킬이 삭제되면 해당 항목도 자동 제거됨
 
-### 새 스킬 추가 시 절차
+### 1.5.4. 새 스킬 추가 시 절차
 1. `.github/skills/<new-skill>/SKILL.md` 파일 생성
 2. `make skills-sync` 실행
 3. 4개 대상 모두 자동 갱신:
@@ -142,7 +167,7 @@ make skills-sync
 
 ---
 
-## SKILL.md 파일 형식
+## 1.6. SKILL.md 파일 형식
 
 ```markdown
 ---
@@ -164,7 +189,7 @@ description: "트리거 문구 — 스킬 설명"
 
 ---
 
-## 파일별 편집 가능 여부
+## 1.7. 파일별 편집 가능 여부
 
 | 경로 | 편집 | 설명 |
 |------|------|------|
@@ -177,7 +202,7 @@ description: "트리거 문구 — 스킬 설명"
 
 ---
 
-## 비교: 단일 파일 or instructions vs Skills 방식
+## 1.8. 비교: 단일 파일 or instructions vs Skills 방식
 
 | 항목 | 단일 파일 (GEMINI.md / CLAUDE.md) or instructions | Skills (`SKILL.md`) |
 |------|------|------|
@@ -189,7 +214,7 @@ description: "트리거 문구 — 스킬 설명"
 | 파일 범위 지정 | ❌ | ✅ (applyTo glob 지원) |
 
 
-# appendix.
-## vscode 만 사용하는 경우 간단하게 workload skill(instruction) 을 사용하는 방법
+# 2. appendix.
+## 2.1. vscode 만 사용하는 경우 간단하게 workload skill(instruction) 을 사용하는 방법
 - skill은 제공하지 않고 , *-instructions.md 를 만들면 모두 instruction으로 처리한다.
 - .github/skills/worklog-manager/SKILL.md를 사용하고자 하면 , 파일을 .github/worklog-manager-instructions.md 로 copy해주면 instruction으로 동작하여,   '일 정리해줘' 하고 명령을 내리면 명령 set을 수행해줍니다. 
